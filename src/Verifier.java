@@ -1,10 +1,11 @@
 import javax.swing.*;
 import java.io.*;
 import java.net.*;
+import java.security.NoSuchAlgorithmException;
 import java.security.PublicKey;
 
 public class Verifier {
-    public static void main(String[] args) throws IOException {
+    public static void run() throws IOException, NoSuchAlgorithmException {
         // Connect to the server
         Socket Client2Socket = new Socket("localhost", 5000);
         // Create a PrintWriter object for sending messages to the server
@@ -40,4 +41,10 @@ public class Verifier {
         inFromClient2.close();
         Client2Socket.close();
     }
+
+    public static void main(String[] args) throws IOException, NoSuchAlgorithmException {
+        Verifier srv = new Verifier();
+        srv.run();
+    }
+
 }

@@ -37,7 +37,7 @@ import java.security.spec.X509EncodedKeySpec;
 import java.security.MessageDigest;
 
 public class Holder {
-    public static void main(String[] args) throws IOException, NoSuchAlgorithmException {
+    public static void run() throws IOException, NoSuchAlgorithmException {
 
         // Connect to the server
         Socket Client2Socket = new Socket("localhost", 5000);
@@ -75,10 +75,11 @@ public class Holder {
         int r = Integer.parseInt(inFromClient2.readLine());
 
 
+    }
 
-
-
-
+    public static void main(String[] args) throws IOException, NoSuchAlgorithmException {
+        Holder srv = new Holder();
+        srv.run();
     }
 
 

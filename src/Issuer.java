@@ -38,8 +38,7 @@ import java.security.spec.X509EncodedKeySpec;
 import java.security.MessageDigest;
 
 public class Issuer {
-    public static void main(String[] args) throws IOException, NoSuchAlgorithmException, InvalidKeyException, SignatureException {
-        // Create a server socket
+    public static void run() throws IOException, NoSuchAlgorithmException, InvalidKeyException, SignatureException {
         ServerSocket serverSocket = new ServerSocket(5000);
 
         // Accept a connection from Client 1
@@ -127,10 +126,7 @@ public class Issuer {
         outToClient1.println(atts);
         outToClient1.println(r);
 
-        // Close the connections
-        outToClient1.close();
-        inFromClient1.close();
-        client1Socket.close();
+
 
 
 
@@ -138,13 +134,11 @@ public class Issuer {
         // Accept a connection from Client 1
         Socket client3Socket = serverSocket.accept();
         // Create a PrintWriter object for sending messages to Client 1
-        PrintWriter outToClient3 = new PrintWriter(client1Socket.getOutputStream(), true);
+        PrintWriter outToClient3 = new PrintWriter(client3Socket.getOutputStream(), true);
         // Create a BufferedReader object for receiving messages from Client 1
-        BufferedReader inFromClient3 = new BufferedReader(new InputStreamReader(client1Socket.getInputStream()));
-        // get the output stream from the socket.
-        OutputStream outputStream = client3Socket.getOutputStream();
-        // create an object output stream from the output stream so we can send an object through it
-        ObjectOutputStream objectOutputStream = new ObjectOutputStream(outputStream);
+        BufferedReader inFromClient3 = new BufferedReader(new InputStreamReader(client3Socket.getInputStream()));
+
+
 
         outToClient3.println(DID);
         Base64.Encoder encoder = Base64.getEncoder();
@@ -175,5 +169,10 @@ public class Issuer {
 
 
 
+    }
+
+    public static void main(String[] args) throws IOException, NoSuchAlgorithmException, SignatureException, InvalidKeyException {
+        Issuer srv = new Issuer();
+        srv.run();
     }
 }
