@@ -4,6 +4,7 @@ import java.net.*;
 import java.security.MessageDigest;
 import java.security.SecureRandom;
 import java.security.Signature;
+import java.util.Base64;
 import java.util.Random;
 import java.util.Hashtable;
 import java.util.Random;
@@ -60,12 +61,12 @@ public class Issuer {
 
         // Receive message x from Client 1
         String DID = inFromClient1.readLine();
-        String atts = inFromClient1.readLine();
-        // Respond with message y
-        //outToClient1.println("y");
 
 
 
+
+
+        String atts="J'ai obtenu mon Diplome de Master 2 en 2023"; //peut etre un .json pour les attributs ?
 
 
         //Random r et random salt securisé
@@ -121,22 +122,58 @@ public class Issuer {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
+        outToClient1.println(sigma);
+        outToClient1.println(salt);
+        outToClient1.println(atts);
+        outToClient1.println(r);
 
         // Close the connections
         outToClient1.close();
         inFromClient1.close();
         client1Socket.close();
+
+
+
+
+        // Accept a connection from Client 1
+        Socket client3Socket = serverSocket.accept();
+        // Create a PrintWriter object for sending messages to Client 1
+        PrintWriter outToClient3 = new PrintWriter(client1Socket.getOutputStream(), true);
+        // Create a BufferedReader object for receiving messages from Client 1
+        BufferedReader inFromClient3 = new BufferedReader(new InputStreamReader(client1Socket.getInputStream()));
+        // get the output stream from the socket.
+        OutputStream outputStream = client3Socket.getOutputStream();
+        // create an object output stream from the output stream so we can send an object through it
+        ObjectOutputStream objectOutputStream = new ObjectOutputStream(outputStream);
+
+        outToClient3.println(DID);
+        Base64.Encoder encoder = Base64.getEncoder();
+        String pvk = encoder.encodeToString(pk.getEncoded());
+        outToClient3.println(pvk);
+        outToClient3.println(r);
+        outToClient3.println(salted_hash);
+
+
+
+
+        // Close the connections
+        outToClient3.close();
+        inFromClient3.close();
+        client3Socket.close();
         serverSocket.close();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     }
 }

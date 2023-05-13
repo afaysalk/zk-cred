@@ -62,21 +62,21 @@ public class Holder {
         System.out.println("Utilisateur authentifié en tant que propriétaire de l'identité numérique DID(U,I)");
 
 
-        String atts="J'ai obtenu mon Diplome de Master 2 en 2023"; //peut etre un .json pour les attributs ?
 
 
         // Send message x to Issuer
         outToClient2.println(DID);
-        outToClient2.println(atts);
+
 
         // Receive message y from Client 2
-        //String responseFromClient2 = inFromClient2.readLine();
+        byte[] sigma = inFromClient2.readLine().getBytes();
+        byte[] salt = inFromClient2.readLine().getBytes();
+        String atts = inFromClient2.readLine();
+        int r = Integer.parseInt(inFromClient2.readLine());
 
 
-        // Close the connection
-        outToClient2.close();
-        inFromClient2.close();
-        Client2Socket.close();
+
+
 
 
     }
