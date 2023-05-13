@@ -49,7 +49,7 @@ public class Issuer {
         BufferedReader inFromClient1 = new BufferedReader(new InputStreamReader(client1Socket.getInputStream()));
 
 
-    //Generation de la paire de clé publique et secrete coté Issuer apparently ??
+        //Generation de la paire de clé publique et secrete coté Issuer apparently ??
         KeyPairGenerator kpg = KeyPairGenerator.getInstance("RSA");
         kpg.initialize(2048);
         KeyPair kp = kpg.generateKeyPair();
@@ -146,8 +146,7 @@ public class Issuer {
         outToClient3.println(pvk);
         outToClient3.println(r);
         outToClient3.println(salted_hash);
-        outToClient1.println(sign);
-        outToClient1.println(bytes);
+
 
 
 

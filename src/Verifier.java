@@ -24,8 +24,7 @@ public class Verifier {
         String pk =inFromClient2.readLine();
         int r = Integer.parseInt(inFromClient2.readLine());
         byte[] salted_hash = inFromClient2.readLine().getBytes();
-        Signature sign = Signature.getInstance(inFromClient2.readLine());
-        byte[] bytes = inFromClient2.readLine().getBytes();
+
 
 
         String[] columnIssuer = {"DID", "DID:pk(U,I)","r","Salted hash"};
@@ -67,7 +66,6 @@ public class Verifier {
                 pseudonym = new Hashtable<Integer, String>();
         pseudonym.put(r, DIDRP);
 
-        String sigma = inFromClient1.readLine();
 
         /*Verification du Sigma
         sign.initVerify(pk);
