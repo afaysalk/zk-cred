@@ -146,6 +146,11 @@ public class Issuer {
         outToClient3.println(pvk);
         outToClient3.println(r);
         outToClient3.println(salted_hash);
+        outToClient1.println(sign);
+        outToClient1.println(bytes);
+
+
+
 
 
 

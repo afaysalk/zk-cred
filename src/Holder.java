@@ -37,7 +37,7 @@ import java.security.spec.X509EncodedKeySpec;
 import java.security.MessageDigest;
 
 public class Holder {
-    public static void run() throws IOException, NoSuchAlgorithmException {
+    public static void run() throws IOException, NoSuchAlgorithmException, InterruptedException {
 
         // Connect to the server
         Socket Client2Socket = new Socket("localhost", 5000);
@@ -74,10 +74,27 @@ public class Holder {
         String atts = inFromClient2.readLine();
         int r = Integer.parseInt(inFromClient2.readLine());
 
+        // Connect to the server
+
+        Socket Client3Socket = null;
+        while (true) {
+            try {
+                Client3Socket = new Socket("localhost", 3000);
+                if (Client3Socket != null) { break; }
+            }
+            catch (IOException e) { Thread.sleep(1000); }
+        }
+        // Create a PrintWriter object for sending messages to the server
+        PrintWriter outToClient3 = new PrintWriter(Client3Socket.getOutputStream(), true);
+        // Create a BufferedReader object for receiving messages from the server
+        BufferedReader inFromClient3 = new BufferedReader(new InputStreamReader(Client3Socket.getInputStream()));
+
+        String DIDRP= "0x71C7656EC7ab88b098defB751B7401B5f6d8976B";
+        outToClient3.println(DIDRP);
 
     }
 
-    public static void main(String[] args) throws IOException, NoSuchAlgorithmException {
+    public static void main(String[] args) throws IOException, NoSuchAlgorithmException, InterruptedException {
         Holder srv = new Holder();
         srv.run();
     }
