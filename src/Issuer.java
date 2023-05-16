@@ -1,6 +1,7 @@
 import javax.swing.*;
 import java.io.*;
 import java.net.*;
+import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.SecureRandom;
 import java.security.Signature;
@@ -36,6 +37,7 @@ import java.security.spec.InvalidKeySpecException;
 import java.security.spec.PKCS8EncodedKeySpec;
 import java.security.spec.X509EncodedKeySpec;
 import java.security.MessageDigest;
+
 
 public class Issuer {
     public static void run() throws IOException, NoSuchAlgorithmException, InvalidKeyException, SignatureException {
@@ -84,17 +86,20 @@ public class Issuer {
         /// ***CALCUL DE SIGMA σ *** ///
 
         //Creating a Signature object
-        Signature sign = Signature.getInstance("SHA512withRSA");//seul algo qui marche ?
+        Signature sign = Signature.getInstance("SHA256withRSA");//seul algo qui marche ?
         //Initialize the signature
         sign.initSign(sk);
         //Concatener pk,atts,r
         String cert=pk+atts+r;
         byte[] bytes = cert.getBytes();
+        System.out.println("bytes"+bytes.length);
+
         //Adding data to the signature
         sign.update(bytes);
         //Signature de cert avec sk
-        byte[] sigma = sign.sign();
+        byte[] sig = sign.sign();
         //System.out.println("Sigma calculé:"+sigma);
+        String sigma = new String(sig, StandardCharsets.UTF_8);
 
         /// *** Salted Hash des attributs certifiés *** ///
         MessageDigest md = MessageDigest.getInstance("SHA-512");//seul algo ??
@@ -120,8 +125,8 @@ public class Issuer {
         }
 
 
-
-        outToClient1.println(sigma);
+        String signatureStr = Base64.getEncoder().encodeToString(sigma.getBytes());
+        outToClient1.println(signatureStr);
         outToClient1.println(salt);
         outToClient1.println(atts);
         outToClient1.println(r);
@@ -142,10 +147,14 @@ public class Issuer {
 
         outToClient3.println(DID);
         Base64.Encoder encoder = Base64.getEncoder();
-        String pvk = encoder.encodeToString(pk.getEncoded());
-        outToClient3.println(pvk);
-        outToClient3.println(r);
-        outToClient3.println(salted_hash);
+        ObjectOutputStream out = new ObjectOutputStream(client3Socket.getOutputStream());
+        out.writeObject(kp.getPublic());
+        out.writeObject(r);
+        out.writeObject(salted_hash);
+        out.writeObject(sig);
+        out.flush();
+        System.out.println("sigma"+sig.length);
+
 
 
 

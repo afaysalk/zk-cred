@@ -69,7 +69,8 @@ public class Holder {
 
 
         // Receive message y from Client 2
-        byte[] sigma = inFromClient2.readLine().getBytes();
+        String sigma = inFromClient2.readLine();
+        System.out.println("sigma"+sigma);
         byte[] salt = inFromClient2.readLine().getBytes();
         String atts = inFromClient2.readLine();
         int r = Integer.parseInt(inFromClient2.readLine());
@@ -91,6 +92,7 @@ public class Holder {
 
         String DIDRP= "0x71C7656EC7ab88b098defB751B7401B5f6d8976B";
         outToClient3.println(DIDRP);
+        outToClient3.println(sigma);
 
     }
 
