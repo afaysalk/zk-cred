@@ -60,15 +60,13 @@ public class Verifier {
 
 
 
+
         String DIDRP = inFromClient1.readLine();
 
         System.out.println("Utilisateur authentifié en tant que propriétaire de l'identité numérique DID(U,RP)");
         System.out.println("sigma"+sigma.length);
 
-        //Calcul du pseudonyme et envoie a RP
-        Hashtable<Integer, String>
-                pseudonym = new Hashtable<Integer, String>();
-        pseudonym.put(r, DIDRP);
+
 
         String atts="J'ai obtenu mon Diplome de Master 2 en 2023";
         String cert=pk+atts+r;
@@ -84,17 +82,21 @@ public class Verifier {
             System.out.println("Signature failed");
         }
 
-
-        //Ou verification du h*/
-        /*Verification du pseudonyme
+        ObjectInputStream ObjectFromClient1 = new ObjectInputStream(client1Socket.getInputStream());
+        Hashtable<Integer, String>
+                pseudonym_claim = (Hashtable<Integer, String>) ObjectFromClient1.readObject();
+        System.out.println("Pseudo claim"+pseudonym_claim);
+        //Verification du pseudonyme
         Hashtable<Integer, String>
         pseudonym = new Hashtable<Integer, String>();
         pseudonym.put(r, DIDRP);
-        if(pseudonym==pseudonym) {
+        System.out.println("Pseudo local"+pseudonym);
+
+        if(pseudonym.equals(pseudonym_claim)){
             System.out.println("Pseudo verified");
          } else {
             System.out.println("Pseudo failed");
-         }*/
+         }
 
 
         //**Schnorr pour verifier la paire de clés**
@@ -119,6 +121,8 @@ public class Verifier {
             System.out.println("Paire failed");
         }
         */
+
+
 
     }
 

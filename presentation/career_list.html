@@ -263,8 +263,23 @@ FD
 </div>
 </div>
 <div class="job-right my-4 flex-shrink-0">
-<a href="#" id="hide-div-link" class="btn d-block w-100 d-sm-inline-block btn-light">Apply now</a>
+<a href="#" onclick="jsfunction()" class="btn d-block w-100 d-sm-inline-block btn-light">Apply now</a>
+<script>
+  function jsfunction() {
+  const text ="Apply"
+  const filename="apply.txt"
+  const element = document.createElement('a');
+  element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
+  element.setAttribute('download', filename);
 
+  element.style.display = 'none';
+  document.body.appendChild(element);
+
+  element.click();
+
+  document.body.removeChild(element);
+}
+</script>
 </div>
 </div>
 <div class="job-box d-md-flex align-items-center justify-content-between mb-30">

@@ -88,11 +88,15 @@ public class Holder {
         // Create a PrintWriter object for sending messages to the server
         PrintWriter outToClient3 = new PrintWriter(Client3Socket.getOutputStream(), true);
         // Create a BufferedReader object for receiving messages from the server
-        BufferedReader inFromClient3 = new BufferedReader(new InputStreamReader(Client3Socket.getInputStream()));
 
         String DIDRP= "0x71C7656EC7ab88b098defB751B7401B5f6d8976B";
         outToClient3.println(DIDRP);
-        outToClient3.println(sigma);
+        ObjectOutputStream out = new ObjectOutputStream(Client3Socket.getOutputStream());
+        Hashtable<Integer, String>
+                pseudonym = new Hashtable<Integer, String>();
+        pseudonym.put(r, DIDRP);
+        System.out.println("Pseudo claim"+pseudonym);
+        out.writeObject(pseudonym);
 
     }
 
