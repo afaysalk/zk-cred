@@ -37,7 +37,7 @@ import java.security.spec.X509EncodedKeySpec;
 import java.security.MessageDigest;
 
 public class Holder {
-    public static void run() throws IOException, NoSuchAlgorithmException, InterruptedException {
+    public static void run() throws IOException, NoSuchAlgorithmException, InterruptedException, InvalidKeyException, SignatureException, ClassNotFoundException {
 
         // Connect to the server
         Socket Client2Socket = new Socket("localhost", 5000);
@@ -98,9 +98,24 @@ public class Holder {
         System.out.println("Pseudo claim"+pseudonym);
         out.writeObject(pseudonym);
 
+
+        ObjectInputStream ObjectFromClient3 = new ObjectInputStream(Client3Socket.getInputStream());
+
+        byte[] challenge= (byte[]) ObjectFromClient3.readObject();
+
+
+
+        // sign using the private key
+        Signature sig = Signature.getInstance("SHA256withRSA");
+        sig.initSign(sk);
+        sig.update(challenge);
+        byte[] signature = sig.sign();
+
+        out.writeObject(signature);
+
     }
 
-    public static void main(String[] args) throws IOException, NoSuchAlgorithmException, InterruptedException {
+    public static void main(String[] args) throws IOException, NoSuchAlgorithmException, InterruptedException, SignatureException, InvalidKeyException, ClassNotFoundException {
         Holder srv = new Holder();
         srv.run();
     }

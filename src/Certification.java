@@ -69,7 +69,7 @@ public class Certification {
 
 
 
-            String atts="J'ai obtenu mon Diplome de Master 2 en 2023"; //peut etre un .json pour les attributs ?
+            String atts="MasterDegree"; //peut etre un .json pour les attributs ?
 
 
 

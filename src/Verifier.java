@@ -7,6 +7,7 @@ import java.util.Base64;
 import java.util.Hashtable;
 import java.util.concurrent.ThreadLocalRandom;
 
+
 public class Verifier {
     public static void run() throws IOException, NoSuchAlgorithmException, SignatureException, ClassNotFoundException, InvalidKeyException {
         // Connect to the server
@@ -104,11 +105,14 @@ public class Verifier {
         byte[] challenge = new byte[10000];
         ThreadLocalRandom.current().nextBytes(challenge);
 
-        /* sign using the private key
+        ObjectOutputStream out = new ObjectOutputStream(client1Socket.getOutputStream());
+        out.writeObject(challenge);
+
+
+
+        // sign using the private key
         Signature sig = Signature.getInstance("SHA256withRSA");
-        sig.initSign(sk);
-        sig.update(challenge);
-        byte[] signature = sig.sign();
+        byte[] signature = (byte[]) ObjectFromClient1.readObject();
 
         // verify signature using the public key
         sig.initVerify(pk);
@@ -120,7 +124,7 @@ public class Verifier {
         } else {
             System.out.println("Paire failed");
         }
-        */
+
 
 
 
